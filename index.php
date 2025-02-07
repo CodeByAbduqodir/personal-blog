@@ -11,26 +11,10 @@ try {
 }
 
 if (isset($conn)) {
+    $title = "Home";
+    require_once "base/base_header.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./style.css">
-        <title>Document</title>
-    </head>
-    <body>
-    <header>
-        <div class="container">
-        <ul>
-            <li>
-                <a href="/">Home</a>
-                <a href="/admin.php">Admin</a>
-            </li>
-        </ul>
-        </div>
-    </header>
+
         <div class="wrapper">
             <div class="container">
             <ul class="list">
@@ -39,26 +23,29 @@ if (isset($conn)) {
                 if(count($data) > 0) {
                     foreach($data as $item) {
                         echo "
-                        <li class='item'>
+                        <li class='item list-group-item d-flex justify-content-between align-items-center'>
+                        <div>
                         <h2>{$item['postname']}</h2>
-                        <p>{$item['posttext']}</p>
+                        <p class='mb-0'>{$item['posttext']}</p>
+                        </div>
                         <div class='wrap'>
-                        <p>{$item['date']}</p>
+                        <p class='mb-0'>{$item['date']}</p>
                         <form action='single.php' method='post'>
                             <input type='hidden' name='id' value='{$item['id']}'>
-                            <button class='info'>Batafsil</button>
+                            <button class='btn btn-primary info'>Batafsil</button>
                         </form>
                         </div>
                         </li>";
                     }
                 } else {
-                    echo "<h1>Please add a task.</h1>";
+                    echo "<h1 class='text-center'>Please add a task.</h1>";
                 }
             ?>
             </ul>
             </div>
     </div>
-</body>
-</html>
-<?php } ?>
+
+<?php 
+    require_once "base/base_footer.php";
+} ?>
 
