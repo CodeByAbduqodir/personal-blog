@@ -1,23 +1,20 @@
 # Personal Blog
 
-This is a simple personal blog application built with PHP and Laravel. It allows users to create, edit, and delete posts. The application is designed for educational purposes and can be customized for personal use.
+This is a simple personal blog application built with PHP. It allows users to create, edit, and delete posts. The application uses a MySQL database for storing posts and user information.
 
 ## Features
 
 - User Registration and Login
-- Post Creation, Editing, and Deletion
+- Create, Edit, and Delete Posts
 - Categories for Posts
-- User-Specific Posts
-- Bootstrap-based UI for Responsive Design
+- Bootstrap-based Responsive UI
 
 ## Installation
 
 ### Prerequisites
 
 - PHP 7.4 or higher
-- Composer
 - MySQL or MariaDB
-- Laravel 8.x (or compatible version)
 
 ### Steps to Install
 
@@ -33,54 +30,55 @@ This is a simple personal blog application built with PHP and Laravel. It allows
    cd personal-blog
    ```
 
-3. Install the project dependencies using Composer:
-
-   ```bash
-   composer install
-   ```
-
-4. Copy the `.env.example` file to `.env`:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-5. Generate the application key:
-
-   ```bash
-   php artisan key:generate
-   ```
-
-6. Set up the database. Open `.env` and update the following configuration with your database details:
+3. Set up your database:
+   - Create a MySQL database for the project.
+   - Open `.env` (или настрой файл конфигурации) и укажи свои данные для подключения к базе данных:
 
    ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=your_database_name
+   DB_HOST=localhost
    DB_USERNAME=your_database_username
    DB_PASSWORD=your_database_password
+   DB_DATABASE=your_database_name
    ```
 
-7. Run the migrations to set up the database schema:
+4. Import the database schema by running the SQL migration script in your MySQL client:
+
+   ```sql
+   CREATE TABLE posts (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     title VARCHAR(255) NOT NULL,
+     content TEXT NOT NULL,
+     category VARCHAR(100) NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+   );
+
+   CREATE TABLE users (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     username VARCHAR(255) NOT NULL,
+     password VARCHAR(255) NOT NULL,
+     email VARCHAR(255) NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   );
+   ```
+
+5. Настрой `.htaccess` для правильной маршрутизации (если используешь Apache):
+
+   Создай файл `.htaccess` в корне проекта с таким содержанием:
+
+   ```apache
+   RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+   ```
+
+6. Запусти встроенный сервер PHP:
 
    ```bash
-   php artisan migrate
+   php -S localhost:8000
    ```
 
-8. Optionally, you can seed the database with some sample posts:
-
-   ```bash
-   php artisan db:seed
-   ```
-
-9. Start the development server:
-
-   ```bash
-   php artisan serve
-   ```
-
-   The application will be available at `http://127.0.0.1:8000`.
+   Приложение будет доступно по адресу `http://localhost:8000`.
 
 ## Usage
 
